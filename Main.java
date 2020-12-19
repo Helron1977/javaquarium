@@ -1,4 +1,4 @@
-import java.awt.*;
+
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +8,7 @@ public class Main {
         int nbJours = 0;
         Aquarium aquarium = init();
 
-        while (nbJours != 10) {
+        while (nbJours != 2) {
             nbJours = loop(nbJours, aquarium);
         }
     }
@@ -22,16 +22,13 @@ public class Main {
 
     private static int loop ( int nbJours, Aquarium aquarium){
         aquarium.feedingPhase();
-        aquarium.reproductionRun();
         display(aquarium);
         return nbJours + 1;
     }
-        private static void display (Aquarium aquarium) {
-            System.out.println("Nombre d'organismes vivants");
-            System.out.println(aquarium.lifeForms.size());
-            System.out.println("Nombre de poissons :");
-            System.out.println(aquarium.fishes.size());
-            System.out.println("Nombre d'algues :");
-            System.out.println(aquarium.seaweeds.size());
+
+
+    private static void display (Aquarium aquarium) {
+        Stat stat = new Stat(aquarium);
+        stat.displayStats();
     }
 }

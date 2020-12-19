@@ -1,9 +1,9 @@
 public enum CarnivoresRaces {
     MEROU("Mérou"), THON("Thon"), POISSON_CLOWN("Poisson-clown");
 
-    private String race;
+    private final String race;
 
-    private CarnivoresRaces(String race) {
+    CarnivoresRaces(String race) {
         this.race = race;
     }
 

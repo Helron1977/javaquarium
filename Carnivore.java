@@ -1,17 +1,24 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public  class Carnivore extends Fish {
-    String race;
+    private String race;
+    private Type type;
 
 
     public Carnivore(String name, Boolean male, String race) {
-        super(name, male, Carnivore.class.getName());
+        super(name, male);
+        this.setType(Type.CARNIVORE);
+        this.setPredatorType(Type.CARNIVORE);
     }
 
-
     @Override
-    public void eat(List<LifeForm> lf) {
-
+    public List<LifeForm> eat(List<LifeForm> preys) {
+        while( this == preys.get(0))
+            Collections.shuffle(preys);
+        preys.remove(0);
+        this.setFeed(true);
+        return preys;
     }
 }

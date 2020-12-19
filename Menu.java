@@ -5,6 +5,8 @@ public class Menu {
 
     public Menu(Aquarium aquarium) {
         lifeFormMenu(aquarium);
+        aquarium.updateAquarium();
+        new Stat(aquarium).displayStats();
 
     }
     private static void lifeFormMenu(Aquarium aquarium) {
@@ -23,17 +25,18 @@ public class Menu {
         askAgain(aquarium);
     }
 
-    private static void askAgain(Aquarium aquarium) {
+    private static String askAgain(Aquarium aquarium) {
         System.out.println("Voulez vous ajouter une autre forme de vie ?"+ yesNo());
         String choice = sc.next();
 
         while(!choice.equals("Y") && !choice.equals("N")) {
             displayInvalideChoice();
-            askAgain(aquarium);
+            choice = askAgain(aquarium);
         }
         if(choice.equals("Y")) {
             lifeFormMenu(aquarium);
         }
+        return choice;
     }
 
     private static String yesNo() {

@@ -1,14 +1,13 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Aquarium {
     String owner;
     List<LifeForm> lifeForms = new ArrayList<>();
-    List<Seaweed> seaweeds = new ArrayList<>();
-    List<Fish> fishes = new ArrayList<>();
-    List<Fish> carnivores = new ArrayList<>();
-    List<Fish> herbivores = new ArrayList<>();
+    List<LifeForm> seaweeds = new ArrayList<>();
+    List<LifeForm> fishes = new ArrayList<>();
+    List<LifeForm> carnivores = new ArrayList<>();
+    List<LifeForm> herbivores = new ArrayList<>();
 
     public Aquarium(String owner) {
         this.owner = owner;
@@ -26,28 +25,40 @@ public class Aquarium {
         if (type.equals("Carnivore")) {
             Carnivore car = new Carnivore(name, sex, race);
             carnivores.add(car);
-            updateAquarium(car);
+            fishes.add(car);
         }
         if (type.equals("Herbivore")) {
             Herbivore herb = new Herbivore(name, sex, race);
             herbivores.add(herb);
-            updateAquarium(herb);
+            fishes.add(herb);
         }
     }
 
-    private void updateAquarium(Fish fish) {
-        fishes.add(fish);
-        lifeForms.add(fish);
+    public void updateAquarium() {
+        lifeForms.clear();
+        lifeForms.addAll(fishes);
+        lifeForms.addAll(seaweeds);
+        resetAnger();
+    }
+
+    private void resetAnger() {
+        for (LifeForm fish : fishes) {
+            ((Fish) fish).setFeed(false);
+        }
     }
 
     public void feedingPhase() {
-        Predation predation = new Predation(fishes);
-        Collections.shuffle(fishes);
-        for (Fish fish : fishes) {
-            fish.eat(lifeForms);
+        for (int i = 0; i < fishes.size(); i++) {
+            Fish fish = (Fish) fishes.get(i);
+            if (fish.getType() == Type.CARNIVORE && !fish.getFeed() && fishes.size() >= 2)
+                fishes = fish.eat(fishes);
+            if (fish.getType() == Type.HERBIVORE && !seaweeds.isEmpty())
+                seaweeds = fish.eat(seaweeds);
         }
+        updateAquarium();
+
     }
 
-    public void reproductionRun() {
-    }
+
+
 }
